@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The MAPCO Growth System · Pricing 2026</title>
+<meta name="description" content="A tiered growth system for MAPCO Exteriors: paid ads, a website that converts, and the content engine that keeps both performing.">
+<meta property="og:title" content="The MAPCO Growth System">
+<meta property="og:description" content="Three service tiers and a shelf of stackables, engineered to close more deals through winter.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Exo:wght@500;600;700;800;900&family=Mulish:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   BRAND TOKENS — MAPCO Exteriors
+   ============================================================ */
+:root {
+  --bg: #131313;            /* slide background (near-black) */
+  --ink: #F5F5F5;           /* primary text */
+  --muted: #A9ABAE;         /* secondary text, captions, counters */
+  --accent: #95E201;        /* MAPCO lime: highlights, rules, progress */
+  --blue: #0304FF;          /* MAPCO electric blue: structural fills */
+  --blue-lite: #7C7DFF;     /* brightened blue for text on dark */
+  --surface: #1B1B1D;       /* cards, panels */
+  --surface-2: #212123;     /* raised panels */
+  --line: #2E2E31;          /* hairlines, borders */
+
+  --font-display: "Exo", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Mulish", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+  --radius: 12px;
+  --pad: clamp(1.5rem, 5vw, 5rem);
+}
+
+/* ============================================================
+   ENGINE
+   ============================================================ */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+.deck { position: fixed; inset: 0; }
+
+.slide {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column; justify-content: center;
+  padding: var(--pad);
+  opacity: 0; visibility: hidden;
+  transform: translateX(24px);
+  transition: opacity .45s ease, transform .45s ease, visibility 0s linear .45s;
+  overflow: hidden;
+}
+.slide.active {
+  opacity: 1; visibility: visible;
+  transform: translateX(0);
+  transition: opacity .45s ease, transform .45s ease;
+}
+.slide.exit-left { transform: translateX(-24px); }
+
+/* Scrollable safety for dense slides on short screens */
+.slide.dense { justify-content: flex-start; overflow-y: auto; }
+.slide.dense { padding-top: clamp(1.5rem, 5vh, 3.5rem); padding-bottom: clamp(1.5rem, 5vh, 3.5rem); }
+
+/* ---------- Type scale ---------- */
+h1 { font-family: var(--font-display); font-weight: 900; font-size: clamp(2.4rem, 7vw, 5.5rem); line-height: 1.0; letter-spacing: -0.02em; }
+h2 { font-family: var(--font-display); font-weight: 800; font-size: clamp(1.9rem, 4.8vw, 3.6rem); line-height: 1.05; letter-spacing: -0.015em; margin-bottom: .5em; }
+h3 { font-family: var(--font-display); font-weight: 700; font-size: clamp(1.1rem, 2.2vw, 1.45rem); margin-bottom: .35em; letter-spacing: -.01em; }
+p, li { font-size: clamp(1rem, 1.9vw, 1.3rem); line-height: 1.55; max-width: 62ch; }
+p + p { margin-top: .8em; }
+strong { color: var(--accent); font-weight: 700; }
+a { color: var(--accent); text-decoration: none; }
+
+.eyebrow {
+  font-family: var(--font-mono); font-size: clamp(.7rem, 1.3vw, .82rem);
+  text-transform: uppercase; letter-spacing: .2em; color: var(--accent);
+  margin-bottom: 1.1em;
+}
+.eyebrow.blue { color: var(--blue-lite); }
+.muted { color: var(--muted); }
+.kicker { font-family: var(--font-mono); font-size: clamp(.62rem,1.1vw,.72rem); text-transform: uppercase; letter-spacing: .16em; color: var(--muted); }
+
+/* ---------- Cover ---------- */
+.cover { justify-content: flex-end; }
+.cover .bg { position: absolute; inset: 0; z-index: 0; }
+.cover .bg img { width: 100%; height: 100%; object-fit: cover; filter: saturate(.9) contrast(1.02); }
+.cover .bg::after { content: ""; position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(19,19,19,.55) 0%, rgba(19,19,19,.72) 45%, rgba(19,19,19,.96) 100%); }
+.cover .inner { position: relative; z-index: 1; }
+.cover img.logo { height: clamp(38px, 7vw, 64px); width: auto; margin-bottom: 1.4em;
+  background: #fff; padding: 10px 14px; border-radius: 10px; }
+.cover h1 { max-width: 16ch; }
+.cover .lede { color: var(--muted); max-width: 54ch; margin-top: 1.1em; font-size: clamp(1rem,1.9vw,1.28rem); }
+.cover .foot { margin-top: 2em; font-family: var(--font-mono); font-size: clamp(.66rem,1.2vw,.78rem);
+  letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+.accent-bar { width: 64px; height: 5px; background: var(--accent); border-radius: 3px; margin-bottom: 1.4em; }
+
+/* ---------- Pillars row ---------- */
+.pillars { display: flex; flex-wrap: wrap; gap: clamp(.6rem,1.5vw,1rem); margin-top: 1.8em; }
+.pill { font-family: var(--font-mono); font-size: clamp(.7rem,1.3vw,.85rem); letter-spacing: .12em;
+  text-transform: uppercase; padding: .6em 1em; border: 1px solid var(--line); border-radius: 999px;
+  background: var(--surface); color: var(--ink); display: inline-flex; align-items: center; gap: .55em; }
+.pill::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); }
+.pill.b::before { background: var(--blue-lite); }
+
+/* ---------- Tier grid ---------- */
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(.9rem, 1.8vw, 1.4rem); align-items: stretch; }
+.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: clamp(.8rem, 1.5vw, 1.2rem); align-items: stretch; }
+@media (max-width: 860px) { .grid-3, .grid-4 { grid-template-columns: 1fr; } }
+
+.tier { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: clamp(1.1rem, 2.2vw, 1.7rem); display: flex; flex-direction: column; position: relative; }
+.tier.feature { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+.tier .num { font-family: var(--font-display); font-weight: 900; font-size: clamp(1.6rem,3vw,2.2rem);
+  color: var(--blue-lite); line-height: 1; }
+.tier .tag { font-family: var(--font-mono); font-size: .66rem; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--muted); }
+.tier .badge { position: absolute; top: -.75em; left: clamp(1.1rem,2.2vw,1.7rem);
+  background: var(--accent); color: #0b0b0b; font-family: var(--font-mono); font-weight: 700;
+  font-size: .6rem; letter-spacing: .12em; text-transform: uppercase; padding: .35em .7em; border-radius: 6px; }
+.tier h3 { margin-top: .5em; margin-bottom: .1em; font-size: clamp(1.2rem,2.4vw,1.6rem); }
+.tier .scope { font-family: var(--font-mono); font-size: .68rem; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--blue-lite); margin-bottom: .8em; }
+.tier .price { font-family: var(--font-display); font-weight: 800; font-size: clamp(1.8rem,3.6vw,2.6rem);
+  color: var(--ink); line-height: 1; margin-top: auto; }
+.tier .price small { font-size: .5em; font-weight: 600; color: var(--muted); letter-spacing: 0; }
+.tier .price .from { display: block; font-family: var(--font-mono); font-size: .52rem; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--muted); margin-bottom: .3em; -webkit-text-fill-color: initial; }
+.tier .desc { color: var(--muted); font-size: clamp(.9rem,1.6vw,1.05rem); margin: .5em 0 1em; }
+.tier .lock { font-family: var(--font-mono); font-size: .66rem; letter-spacing: .06em; color: var(--accent);
+  margin-top: .6em; }
+
+/* checklists */
+.checks { list-style: none; margin: .6em 0 0; padding: 0; }
+.checks li { position: relative; padding-left: 1.5em; font-size: clamp(.85rem,1.5vw,1rem);
+  line-height: 1.4; margin-top: .5em; max-width: none; color: var(--ink); }
+.checks li::before { content: "✓"; position: absolute; left: 0; top: 0; color: var(--accent); font-weight: 700; }
+.checks li strong { color: var(--ink); }
+
+.cap { font-family: var(--font-mono); font-size: .62rem; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--blue-lite); border: 1px solid var(--line); border-radius: 6px; padding: .4em .6em;
+  margin-top: .9em; display: inline-block; }
+
+.note { color: var(--muted); font-size: clamp(.82rem, 1.5vw, .98rem); margin-top: 1.4em; max-width: 90ch; line-height: 1.5; }
+
+/* term legend */
+.terms { display: flex; gap: .5rem; flex-wrap: wrap; margin: .4em 0 1.4em; }
+.terms span { font-family: var(--font-mono); font-size: clamp(.66rem,1.2vw,.78rem); letter-spacing: .1em;
+  text-transform: uppercase; padding: .45em .8em; border: 1px solid var(--line); border-radius: 999px; color: var(--muted); }
+.terms span.on { border-color: var(--accent); color: var(--accent); }
+
+/* ---------- Stackables cards ---------- */
+.stack { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: clamp(.95rem, 1.8vw, 1.4rem); display: flex; flex-direction: column; }
+.stack h3 { color: var(--ink); margin-bottom: .05em; }
+.stack .sub { color: var(--blue-lite); font-family: var(--font-mono); font-size: .64rem; letter-spacing: .1em;
+  text-transform: uppercase; margin-bottom: .7em; }
+.stack ul { list-style: none; margin: 0 0 .9em; padding: 0; }
+.stack li { font-size: clamp(.82rem,1.5vw,.98rem); color: var(--muted); line-height: 1.35; margin-top: .35em;
+  padding-left: .9em; position: relative; max-width: none; }
+.stack li::before { content: ""; position: absolute; left: 0; top: .62em; width: 5px; height: 5px;
+  border-radius: 50%; background: var(--accent); }
+.stack .from { margin-top: auto; font-family: var(--font-display); font-weight: 800; color: var(--accent);
+  font-size: clamp(1rem,1.9vw,1.2rem); }
+.stack .from small { color: var(--muted); font-weight: 600; font-size: .62em; font-family: var(--font-mono);
+  letter-spacing: .08em; text-transform: uppercase; display: block; }
+
+.launch { margin-top: clamp(1rem,2vw,1.4rem); background: linear-gradient(100deg, rgba(3,4,255,.16), rgba(149,226,1,.1));
+  border: 1px solid var(--accent); border-radius: var(--radius); padding: clamp(1rem,2.2vw,1.6rem);
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; }
+.launch .lx h3 { color: var(--accent); margin-bottom: .15em; }
+.launch .lx p { color: var(--muted); font-size: clamp(.85rem,1.5vw,1rem); max-width: 52ch; }
+.launch .lp { text-align: right; }
+.launch .lp .big { font-family: var(--font-display); font-weight: 900; font-size: clamp(2rem,4.5vw,3rem);
+  color: var(--ink); line-height: 1; }
+.launch .lp .save { font-family: var(--font-mono); font-size: .68rem; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--accent); }
+@media (max-width: 600px){ .launch .lp { text-align: left; } }
+
+/* ---------- Quote ---------- */
+blockquote { border-left: 4px solid var(--accent); padding-left: 1em; font-family: var(--font-display);
+  font-weight: 700; font-size: clamp(1.5rem, 3.4vw, 2.6rem); line-height: 1.2; letter-spacing: -.01em;
+  max-width: 22ch; color: var(--ink); }
+
+/* ---------- Closing ---------- */
+.cta-row { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem; margin-top: 1.8em; }
+.btn { display: inline-flex; align-items: center; gap: .5em; background: var(--accent); color: #0b0b0b;
+  font-family: var(--font-display); font-weight: 800; font-size: clamp(1rem,2vw,1.25rem);
+  padding: .7em 1.4em; border-radius: 999px; letter-spacing: -.01em; }
+.phone { font-family: var(--font-display); font-weight: 800; font-size: clamp(1.3rem,3vw,2rem); color: var(--ink); }
+
+/* ---------- Chrome ---------- */
+.progress { position: fixed; left: 0; bottom: 0; height: 3px; background: var(--accent); width: 0%; transition: width .3s ease; z-index: 10; }
+.counter { position: fixed; right: 1.25rem; bottom: 1rem; font-family: var(--font-mono); font-size: .8rem; color: var(--muted); z-index: 10; }
+.nav-hint { position: fixed; left: 1.25rem; bottom: 1rem; font-family: var(--font-mono); font-size: .8rem; color: var(--muted); z-index: 10; opacity: 1; transition: opacity 1s ease; }
+.nav-hint.hidden { opacity: 0; }
+.nav-btn {
+  position: fixed; top: 50%; transform: translateY(-50%);
+  width: 44px; height: 44px; border-radius: 50%;
+  border: 1px solid var(--line); background: color-mix(in srgb, var(--surface) 70%, transparent);
+  color: var(--muted); font-size: 1.1rem; cursor: pointer; z-index: 10;
+}
+.nav-btn:hover, .nav-btn:focus-visible { color: var(--ink); border-color: var(--accent); }
+.nav-btn.prev { left: .75rem; }
+.nav-btn.next { right: .75rem; }
+@media (max-width: 720px) { .nav-btn { display: none; } }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .slide, .progress { transition: none !important; }
+}
+
+/* ---------- Print / PDF ---------- */
+@media print {
+  body { overflow: visible; background: var(--bg); }
+  .deck { position: static; }
+  .slide {
+    position: relative; inset: auto;
+    opacity: 1 !important; visibility: visible !important; transform: none !important;
+    height: 100vh; page-break-after: always; overflow: hidden;
+  }
+  .progress, .counter, .nav-hint, .nav-btn { display: none; }
+}
+</style>
+</head>
+<body>
+
+<main class="deck" aria-live="polite">
+
+  <!-- SLIDE 1: Cover -->
+  <section class="slide cover">
+    <div class="bg"><img src="img/hero-roofers.jpeg" alt="MAPCO Exteriors roofing crew at work"></div>
+    <div class="inner">
+      <img class="logo" src="img/logo.png" alt="MAPCO Exteriors">
+      <p class="eyebrow">Pricing · Service Tiers &amp; Stackables</p>
+      <h1>The MAPCO<br>Growth System</h1>
+      <p class="lede">A tiered system built to close deals through winter, grow deposits, and keep the install calendar full. Paid ads, a website that converts, and the content engine that makes both perform.</p>
+      <p class="foot">Prepared July 2026 · For MAPCO Exteriors · A cut above the rest</p>
+    </div>
+  </section>
+
+  <!-- SLIDE 2: Big statement + pillars -->
+  <section class="slide">
+    <p class="eyebrow blue">The Growth System · Pricing 2026</p>
+    <h2>Close more deals<br>through winter.</h2>
+    <p class="muted" style="max-width:56ch;">Three service tiers and a shelf of stackables, engineered to get leads flowing, turn clicks into booked inspections, and convert winter demand into spring deposits.</p>
+    <div class="pillars">
+      <span class="pill">Paid Ads</span>
+      <span class="pill b">Converting Website</span>
+      <span class="pill">Content Engine</span>
+    </div>
+  </section>
+
+  <!-- SLIDE 3: The Ladder -->
+  <section class="slide dense">
+    <p class="eyebrow">The Ladder</p>
+    <h2 style="margin-bottom:.15em;">A system that grows as the jobs close</h2>
+    <p class="muted" style="max-width:70ch; margin-bottom:1.4em;">Built from the ground up for a company building demand. Begin where the budget allows and step up as the first jobs land.</p>
+    <div class="grid-3">
+      <div class="tier">
+        <div class="num">01</div>
+        <span class="tag">No commitment</span>
+        <h3>Ads Engine</h3>
+        <div class="scope">Paid Ads Only</div>
+        <p class="desc">Leads flowing at low cost on infrastructure that already converts.</p>
+        <div class="price"><span class="from">Month to month</span>$1,750<small> /mo</small></div>
+      </div>
+      <div class="tier">
+        <div class="num">02</div>
+        <span class="tag">3 · 6 · 12-mo</span>
+        <h3>Conversion System</h3>
+        <div class="scope">Website + Paid Ads</div>
+        <p class="desc">The website, landing pages, and tracking that turn clicks into booked inspections.</p>
+        <div class="price"><span class="from">From</span>$6,000<small> /mo</small></div>
+      </div>
+      <div class="tier feature">
+        <span class="badge">Full Engine</span>
+        <div class="num">03</div>
+        <span class="tag">3 · 6 · 12-mo</span>
+        <h3>Full System</h3>
+        <div class="scope">Ads + Website + Content</div>
+        <p class="desc">The content engine that keeps ads performing and fills the calendar season after season.</p>
+        <div class="price"><span class="from">From</span>$7,650<small> /mo</small></div>
+      </div>
+    </div>
+    <p class="note">Ad spend is separate from tier pricing and billed directly to MAPCO on each platform. Each tier includes an ad-spend management cap.</p>
+  </section>
+
+  <!-- SLIDE 4: Compare terms / what's inside -->
+  <section class="slide dense">
+    <p class="eyebrow">Compare Terms</p>
+    <h2 style="margin-bottom:.15em;">Lock your rate. The longer the term, the lower the cost.</h2>
+    <div class="terms"><span class="on">3-month</span><span>6-month</span><span>12-month</span></div>
+    <div class="grid-3">
+      <div class="tier">
+        <span class="tag">Tier 1</span>
+        <h3>Ads Engine</h3>
+        <div class="price" style="margin-top:.2em;">$1,750<small> /mo</small></div>
+        <p class="desc" style="margin:.4em 0 .2em;">Month-to-month · eligibility required</p>
+        <ul class="checks">
+          <li>Google Ads + Local Services Ads management</li>
+          <li>Paid social on 1 platform</li>
+          <li>Weekly optimization on all campaigns</li>
+          <li>Monthly performance report</li>
+        </ul>
+        <span class="cap">Ad-spend cap $5,000/mo</span>
+      </div>
+      <div class="tier feature">
+        <span class="badge">Recommended start</span>
+        <span class="tag">Tier 2</span>
+        <h3>Conversion System</h3>
+        <div class="price" style="margin-top:.2em;">$6,750<small> /mo</small></div>
+        <p class="desc" style="margin:.4em 0 .2em;">Everything in Ads Engine, expanded · 12-mo from $6,000</p>
+        <ul class="checks">
+          <li>Website refresh + ongoing management</li>
+          <li>1 conversion landing page / month</li>
+          <li>SEO + Answer Engine Optimization</li>
+          <li>Lead tracking dashboard, full attribution</li>
+          <li>Paid social, 2 platforms + retargeting</li>
+        </ul>
+        <span class="cap">Ad-spend cap $10,000/mo</span>
+      </div>
+      <div class="tier">
+        <span class="tag">Tier 3</span>
+        <h3>Full System</h3>
+        <div class="price" style="margin-top:.2em;">$8,500<small> /mo</small></div>
+        <p class="desc" style="margin:.4em 0 .2em;">Everything in Conversion, plus content · 12-mo from $7,650</p>
+        <ul class="checks">
+          <li>Social management on 3 platforms</li>
+          <li>Quarterly content production day</li>
+          <li>Automated reviews + past-customer reactivation</li>
+          <li>Winter Priority Booking campaign</li>
+        </ul>
+        <span class="cap" style="border-color:var(--accent); color:var(--accent);">Includes the content engine</span>
+      </div>
+    </div>
+    <p class="note">Ad spend is billed separately, direct to MAPCO on each platform. Spend above the cap is managed at 15%. Ads Engine is available to accounts already set up in the system, or after a one-time System Setup ($3,500).</p>
+  </section>
+
+  <!-- SLIDE 5: Seasonal conversion -->
+  <section class="slide">
+    <p class="eyebrow blue">Seasonal Conversion</p>
+    <div class="columns" style="display:grid; grid-template-columns: 1.1fr 1fr; gap:clamp(1.5rem,4vw,3.5rem); align-items:center;">
+      <blockquote>Competitors hand out the same brochure in January that they printed in June.</blockquote>
+      <div>
+        <h3 style="color:var(--ink); margin-bottom:.8em;">The offer always matches the season the homeowner is living in.</h3>
+        <ul class="checks">
+          <li><strong>Winter Priority Booking campaign</strong> — full offer design, deposit funnel, and spring slot calendar (Tier 3)</li>
+          <li><strong>Seasonal Sync</strong> — every material, QR destination, and offer realigned each quarter ($750/qtr; included on 12-month terms)</li>
+          <li><strong>Seasonal variants of any material</strong> — winter pushes booking &amp; financing, spring pushes install-season urgency</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 6: Stackables -->
+  <section class="slide dense">
+    <p class="eyebrow">Stackables</p>
+    <h2 style="margin-bottom:.15em;">Extend any tier, piece by piece</h2>
+    <p class="muted" style="max-width:74ch; margin-bottom:1.3em;">Priced individually so the offer grows as the business does, not one oversized bundle. Tier 2 &amp; 3 retainers get <strong>10% off all one-time builds</strong>.</p>
+    <div class="grid-4">
+      <div class="stack">
+        <h3>Sales Materials</h3>
+        <div class="sub">Close in the living room</div>
+        <ul>
+          <li>Printed booklet system w/ tracked QR</li>
+          <li>Welcome + Goodbye kits</li>
+          <li>Sales deck (print + tablet)</li>
+          <li>One-pager suite</li>
+        </ul>
+        <div class="from"><small>From</small>$1,200</div>
+      </div>
+      <div class="stack">
+        <h3>Video &amp; Content</h3>
+        <div class="sub">Feed the engine</div>
+        <ul>
+          <li>Flagship longform video / series</li>
+          <li>Testimonial reel package</li>
+          <li>Case study packages</li>
+          <li>FAQ / objection-handling series</li>
+        </ul>
+        <div class="from"><small>From</small>$1,500</div>
+      </div>
+      <div class="stack">
+        <h3>Branding</h3>
+        <div class="sub">Look established</div>
+        <ul>
+          <li>Logo refresh / full brand identity</li>
+          <li>Vehicle wrap design</li>
+          <li>Fleet package — rolling billboards</li>
+          <li>Merchandise line</li>
+        </ul>
+        <div class="from"><small>From</small>$1,750</div>
+      </div>
+      <div class="stack">
+        <h3>Monthly Add-ons</h3>
+        <div class="sub">Turn up the volume</div>
+        <ul>
+          <li>Content Day+ (monthly production)</li>
+          <li>Longform video retainer</li>
+          <li>Direct mail waves</li>
+          <li>Seasonal Sync</li>
+        </ul>
+        <div class="from"><small>From</small>$750<span style="font-size:.5em;">/mo</span></div>
+      </div>
+    </div>
+    <div class="launch">
+      <div class="lx">
+        <h3>The Launch Stack</h3>
+        <p>Full brand identity + fleet package + merchandise line. Everything a new operation needs to look established on day one.</p>
+      </div>
+      <div class="lp">
+        <div class="big">$12,500</div>
+        <div class="save">Saves ~$3,250</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 7: The Math / Closing -->
+  <section class="slide cover">
+    <div class="bg"><img src="img/gutter.jpeg" alt="Freshly installed gutters and siding"></div>
+    <div class="inner">
+      <div class="accent-bar"></div>
+      <p class="eyebrow">The Math</p>
+      <h1 style="max-width:20ch;">One closed job a month covers the ad budget. Two cover the program.</h1>
+      <p class="lede">Recommended path: begin on Ads Engine or Conversion System alongside the Launch Stack, stepping up as the first jobs close.</p>
+      <div class="cta-row">
+        <span class="btn">Start the build</span>
+        <a class="phone" href="tel:+16366262726">(636) 62-MAPCO</a>
+      </div>
+      <p class="foot">A cut above the rest · Prepared July 2026 · Valid 30 days from presentation</p>
+    </div>
+  </section>
+
+</main>
+
+<div class="progress" role="presentation"></div>
+<div class="counter" aria-hidden="true">1 / 7</div>
+<div class="nav-hint">← → to navigate</div>
+<button class="nav-btn prev" aria-label="Previous slide">‹</button>
+<button class="nav-btn next" aria-label="Next slide">›</button>
+
+<script>
+(function () {
+  var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+  var progress = document.querySelector('.progress');
+  var counter = document.querySelector('.counter');
+  var hint = document.querySelector('.nav-hint');
+  var i = 0, interacted = false;
+
+  function clamp(n) { return Math.max(0, Math.min(slides.length - 1, n)); }
+
+  function show(n, skipHash) {
+    n = clamp(n);
+    slides.forEach(function (s, idx) {
+      s.classList.toggle('active', idx === n);
+      s.classList.toggle('exit-left', idx < n);
+      s.setAttribute('aria-hidden', idx === n ? 'false' : 'true');
+    });
+    i = n;
+    progress.style.width = (slides.length > 1 ? (n / (slides.length - 1)) * 100 : 100) + '%';
+    counter.textContent = (n + 1) + ' / ' + slides.length;
+    if (!skipHash) history.replaceState(null, '', '#' + (n + 1));
+    if (interacted && hint) hint.classList.add('hidden');
+  }
+
+  function next() { interacted = true; show(i + 1); }
+  function prev() { interacted = true; show(i - 1); }
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') { e.preventDefault(); next(); }
+    else if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); prev(); }
+    else if (e.key === 'Home') { e.preventDefault(); show(0); }
+    else if (e.key === 'End') { e.preventDefault(); show(slides.length - 1); }
+  });
+
+  document.querySelector('.nav-btn.next').addEventListener('click', next);
+  document.querySelector('.nav-btn.prev').addEventListener('click', prev);
+
+  var touchX = null, touchY = null;
+  document.addEventListener('touchstart', function (e) { touchX = e.changedTouches[0].clientX; touchY = e.changedTouches[0].clientY; }, { passive: true });
+  document.addEventListener('touchend', function (e) {
+    if (touchX === null) return;
+    var dx = e.changedTouches[0].clientX - touchX;
+    var dy = e.changedTouches[0].clientY - touchY;
+    if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) { dx < 0 ? next() : prev(); }
+    touchX = null; touchY = null;
+  }, { passive: true });
+
+  window.addEventListener('hashchange', function () {
+    var n = parseInt(location.hash.slice(1), 10);
+    if (!isNaN(n)) show(n - 1, true);
+  });
+
+  var start = parseInt(location.hash.slice(1), 10);
+  show(!isNaN(start) ? start - 1 : 0, true);
+  setTimeout(function () { if (hint) hint.classList.add('hidden'); }, 6000);
+})();
+</script>
+</body>
+</html>
