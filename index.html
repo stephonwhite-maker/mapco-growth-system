@@ -23,7 +23,8 @@
   --blue-lite: #7C7DFF;     /* brightened blue for text on dark */
   --surface: #1B1B1D;       /* cards, panels */
   --surface-2: #212123;     /* raised panels */
-  --line: #2E2E31;          /* hairlines, borders */
+  --line: #2E2E31;          /* hairlines */
+  --line-2: #404046;        /* chunky card borders */
 
   --font-display: "Exo", ui-sans-serif, system-ui, sans-serif;
   --font-body: "Mulish", ui-sans-serif, system-ui, sans-serif;
@@ -86,11 +87,14 @@ strong { color: var(--accent); font-weight: 700; }
 a { color: var(--accent); text-decoration: none; }
 
 .eyebrow {
-  font-family: var(--font-mono); font-size: clamp(.7rem, 1.3vw, .82rem);
+  display: inline-flex; align-items: center; gap: .8em;
+  font-family: var(--font-mono); font-weight: 700; font-size: clamp(.7rem, 1.3vw, .82rem);
   text-transform: uppercase; letter-spacing: .2em; color: var(--accent);
-  margin-bottom: var(--s-2);
+  margin-bottom: var(--s-3);
 }
+.eyebrow::before { content: ""; width: 30px; height: 5px; background: var(--accent); flex: none; }
 .eyebrow.blue { color: var(--blue-lite); }
+.eyebrow.blue::before { background: var(--blue-lite); }
 .muted { color: var(--muted); }
 /* Unified intro paragraph under a section headline */
 .lead { color: var(--muted); font-size: clamp(1rem, 1.7vw, 1.2rem); line-height: 1.5;
@@ -108,7 +112,8 @@ a { color: var(--accent); text-decoration: none; }
   background: #fff; padding: 10px 14px; border-radius: 10px; }
 .cover h1 { max-width: 16ch; }
 .cover .lede { color: var(--muted); max-width: 54ch; margin-top: var(--s-3); font-size: clamp(1rem,1.9vw,1.28rem); line-height: 1.5; }
-.cover .foot { margin-top: var(--s-5); font-family: var(--font-mono); font-size: clamp(.66rem,1.2vw,.78rem);
+.cover .foot { margin-top: var(--s-4); padding-top: var(--s-3); border-top: 2px solid var(--line-2);
+  max-width: 58ch; font-family: var(--font-mono); font-size: clamp(.66rem,1.2vw,.78rem);
   letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
 .accent-bar { width: 64px; height: 5px; background: var(--accent); border-radius: 3px; margin-bottom: var(--s-4); }
 
@@ -128,8 +133,8 @@ a { color: var(--accent); text-decoration: none; }
 
 /* ---------- Pillars row ---------- */
 .pillars { display: flex; flex-wrap: wrap; gap: clamp(.6rem,1.5vw,1rem); margin-top: var(--s-5); }
-.pill { font-family: var(--font-mono); font-size: clamp(.7rem,1.3vw,.85rem); letter-spacing: .12em;
-  text-transform: uppercase; padding: .6em 1em; border: 1px solid var(--line); border-radius: 999px;
+.pill { font-family: var(--font-mono); font-weight: 700; font-size: clamp(.7rem,1.3vw,.85rem); letter-spacing: .12em;
+  text-transform: uppercase; padding: .65em 1.1em; border: 2px solid var(--line-2); border-radius: 999px;
   background: var(--surface); color: var(--ink); display: inline-flex; align-items: center; gap: .55em; }
 .pill::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); }
 .pill.b::before { background: var(--blue-lite); }
@@ -139,12 +144,16 @@ a { color: var(--accent); text-decoration: none; }
 .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: clamp(.8rem, 1.5vw, 1.2rem); align-items: stretch; }
 @media (max-width: 860px) { .grid-3, .grid-4 { grid-template-columns: 1fr; } }
 
-.tier { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+.tier { background: var(--surface); border: 2px solid var(--line-2); border-radius: var(--radius);
   padding: clamp(1.1rem, 2.2vw, 1.7rem); display: flex; flex-direction: column; position: relative; }
-.tier.feature { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+.tier.feature { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent); }
 .tier .num { font-family: var(--font-display); font-weight: 900; font-size: clamp(1.6rem,3vw,2.2rem);
   color: var(--blue-lite); line-height: 1; }
-.tier .tag { font-family: var(--font-mono); font-size: .66rem; letter-spacing: .14em; text-transform: uppercase;
+.tier .tier-no { position: absolute; top: clamp(.85rem,1.7vw,1.3rem); right: clamp(1rem,2vw,1.5rem);
+  font-family: var(--font-display); font-weight: 900; font-size: clamp(1.5rem,2.8vw,2.3rem);
+  color: var(--blue-lite); opacity: .45; line-height: 1; letter-spacing: -.03em; pointer-events: none; }
+.tier.feature .tier-no { color: var(--accent); opacity: .55; }
+.tier .tag { font-family: var(--font-mono); font-weight: 700; font-size: .66rem; letter-spacing: .16em; text-transform: uppercase;
   color: var(--muted); }
 .tier .badge { position: absolute; top: -.75em; left: clamp(1.1rem,2.2vw,1.7rem);
   background: var(--accent); color: #0b0b0b; font-family: var(--font-mono); font-weight: 700;
@@ -171,16 +180,16 @@ a { color: var(--accent); text-decoration: none; }
 .checks li::before { content: "✓"; position: absolute; left: 0; top: 0; color: var(--accent); font-weight: 700; }
 .checks li strong { color: var(--ink); }
 
-.cap { font-family: var(--font-mono); font-size: .62rem; letter-spacing: .1em; text-transform: uppercase;
-  color: var(--blue-lite); border: 1px solid var(--line); border-radius: 6px; padding: .45em .65em;
+.cap { font-family: var(--font-mono); font-weight: 700; font-size: .62rem; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--blue-lite); border: 1.5px solid var(--line-2); border-radius: 6px; padding: .5em .7em;
   display: inline-block; }
 
 .note { color: var(--muted); font-size: clamp(.82rem, 1.5vw, .98rem); margin-top: var(--s-5); max-width: 90ch; line-height: 1.5; }
 
 /* term selector (interactive) */
 .terms { display: flex; gap: .5rem; flex-wrap: wrap; margin: 0 0 var(--s-3); }
-.terms .term-btn { font-family: var(--font-mono); font-size: clamp(.66rem,1.2vw,.78rem); letter-spacing: .1em;
-  text-transform: uppercase; padding: .55em .95em; border: 1px solid var(--line); border-radius: 999px;
+.terms .term-btn { font-family: var(--font-mono); font-weight: 700; font-size: clamp(.66rem,1.2vw,.78rem); letter-spacing: .1em;
+  text-transform: uppercase; padding: .55em 1em; border: 2px solid var(--line-2); border-radius: 999px;
   color: var(--muted); background: transparent; cursor: pointer;
   transition: color .18s ease, background .18s ease, border-color .18s ease; }
 .terms .term-btn:hover { color: var(--ink); border-color: var(--muted); }
@@ -196,7 +205,7 @@ a { color: var(--accent); text-decoration: none; }
 @media (prefers-reduced-motion: reduce) { .price .amt.bump { animation: none; } }
 
 /* ---------- Stackables cards ---------- */
-.stack { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+.stack { background: var(--surface); border: 2px solid var(--line-2); border-radius: var(--radius);
   padding: clamp(.95rem, 1.8vw, 1.4rem); display: flex; flex-direction: column; }
 .stack h3 { color: var(--ink); margin-bottom: 0; }
 .stack .sub { color: var(--blue-lite); font-family: var(--font-mono); font-size: .64rem; letter-spacing: .1em;
@@ -212,7 +221,7 @@ a { color: var(--accent); text-decoration: none; }
   letter-spacing: .08em; text-transform: uppercase; display: block; }
 
 .launch { margin-top: var(--s-4); background: linear-gradient(100deg, rgba(3,4,255,.16), rgba(149,226,1,.1));
-  border: 1px solid var(--accent); border-radius: var(--radius); padding: clamp(1.1rem,2.2vw,1.6rem);
+  border: 2px solid var(--accent); border-radius: var(--radius); padding: clamp(1.1rem,2.2vw,1.6rem);
   display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--s-4); }
 .launch .lx h3 { color: var(--accent); margin-bottom: var(--s-1); }
 .launch .lx p { color: var(--muted); font-size: clamp(.85rem,1.5vw,1rem); max-width: 52ch; }
@@ -224,7 +233,7 @@ a { color: var(--accent); text-decoration: none; }
 @media (max-width: 600px){ .launch .lp { text-align: left; } }
 
 /* ---------- Quote ---------- */
-blockquote { border-left: 4px solid var(--accent); padding-left: 1em; font-family: var(--font-display);
+blockquote { border-left: 6px solid var(--accent); padding-left: 1em; font-family: var(--font-display);
   font-weight: 700; font-size: clamp(1.5rem, 3.4vw, 2.6rem); line-height: 1.2; letter-spacing: -.01em;
   max-width: 22ch; color: var(--ink); }
 
@@ -236,7 +245,7 @@ blockquote { border-left: 4px solid var(--accent); padding-left: 1em; font-famil
 .phone { font-family: var(--font-display); font-weight: 800; font-size: clamp(1.3rem,3vw,2rem); color: var(--ink); }
 
 /* ---------- Chrome ---------- */
-.progress { position: fixed; left: 0; bottom: 0; height: 3px; background: var(--accent); width: 0%; transition: width .3s ease; z-index: 10; }
+.progress { position: fixed; left: 0; bottom: 0; height: 5px; background: var(--accent); width: 0%; transition: width .3s ease; z-index: 10; }
 .counter { position: fixed; right: 1.25rem; bottom: 1rem; font-family: var(--font-mono); font-size: .8rem; color: var(--muted); z-index: 10; }
 .nav-hint { position: fixed; left: 1.25rem; bottom: 1rem; font-family: var(--font-mono); font-size: .8rem; color: var(--muted); z-index: 10; opacity: 1; transition: opacity 1s ease; }
 .nav-hint.hidden { opacity: 0; }
@@ -304,45 +313,11 @@ blockquote { border-left: 4px solid var(--accent); padding-left: 1em; font-famil
     </div>
   </section>
 
-  <!-- SLIDE 3: The Ladder -->
-  <section class="slide dense">
-    <p class="eyebrow">The Ladder</p>
-    <h2>A system that grows as the jobs close</h2>
-    <p class="lead">Built from the ground up for a company building demand. Begin where the budget allows and step up as the first jobs land.</p>
-    <div class="grid-3">
-      <div class="tier">
-        <div class="num">01</div>
-        <span class="tag">No commitment</span>
-        <h3>Ads Engine</h3>
-        <div class="scope">Paid Ads Only</div>
-        <p class="desc">Leads flowing at low cost on infrastructure that already converts.</p>
-        <div class="price"><span class="from">Month to month</span>$1,750<small> /mo</small></div>
-      </div>
-      <div class="tier">
-        <div class="num">02</div>
-        <span class="tag">3 · 6 · 12-mo</span>
-        <h3>Conversion System</h3>
-        <div class="scope">Website + Paid Ads</div>
-        <p class="desc">The website, landing pages, and tracking that turn clicks into booked inspections.</p>
-        <div class="price"><span class="from">From</span>$6,000<small> /mo</small></div>
-      </div>
-      <div class="tier feature">
-        <span class="badge">Full Engine</span>
-        <div class="num">03</div>
-        <span class="tag">3 · 6 · 12-mo</span>
-        <h3>Full System</h3>
-        <div class="scope">Ads + Website + Content</div>
-        <p class="desc">The content engine that keeps ads performing and fills the calendar season after season.</p>
-        <div class="price"><span class="from">From</span>$7,650<small> /mo</small></div>
-      </div>
-    </div>
-    <p class="note">Ad spend is separate from tier pricing and billed directly to MAPCO on each platform. Each tier includes an ad-spend management cap.</p>
-  </section>
-
-  <!-- SLIDE 4: Compare terms / interactive price selector -->
+  <!-- SLIDE 3: Compare terms / interactive price selector -->
   <section class="slide dense">
     <p class="eyebrow">Compare Terms</p>
     <h2>Lock your rate. The longer the term, the lower the cost.</h2>
+    <p class="lead" style="margin-bottom:var(--s-4);">Three tiers. Start where the budget allows, then step up as the jobs close.</p>
     <div class="terms" role="group" aria-label="Select commitment term">
       <button type="button" class="term-btn on" data-term="3" aria-pressed="true">3-month</button>
       <button type="button" class="term-btn" data-term="6" aria-pressed="false">6-month</button>
@@ -351,6 +326,7 @@ blockquote { border-left: 4px solid var(--accent); padding-left: 1em; font-famil
     <p class="term-blurb" id="term-blurb" aria-live="polite"></p>
     <div class="grid-3">
       <div class="tier" data-tier="1">
+        <span class="tier-no">1</span>
         <span class="tag">Tier 1</span>
         <h3>Ads Engine</h3>
         <div class="price"><span class="amt" data-price>$1,750</span><small> /mo</small></div>
@@ -365,6 +341,7 @@ blockquote { border-left: 4px solid var(--accent); padding-left: 1em; font-famil
         <span class="cap">Ad-spend cap $5,000/mo</span>
       </div>
       <div class="tier feature" data-tier="2">
+        <span class="tier-no">2</span>
         <span class="tag">Tier 2</span>
         <h3>Conversion System</h3>
         <div class="price"><span class="amt" data-price>$6,750</span><small> /mo</small></div>
@@ -380,6 +357,7 @@ blockquote { border-left: 4px solid var(--accent); padding-left: 1em; font-famil
         <span class="cap">Ad-spend cap $10,000/mo</span>
       </div>
       <div class="tier" data-tier="3">
+        <span class="tier-no">3</span>
         <span class="tag">Tier 3</span>
         <h3>Full System</h3>
         <div class="price"><span class="amt" data-price>$8,500</span><small> /mo</small></div>
@@ -481,7 +459,6 @@ blockquote { border-left: 4px solid var(--accent); padding-left: 1em; font-famil
   <section class="slide cover">
     <div class="bg"><img src="img/gutter.jpg" alt="Freshly installed gutters and siding"></div>
     <div class="inner">
-      <div class="accent-bar"></div>
       <p class="eyebrow">The Math</p>
       <h1 style="max-width:20ch;">One closed job a month covers the ad budget. Two cover the program.</h1>
       <p class="lede">Recommended path: begin on Ads Engine or Conversion System alongside the Launch Stack, stepping up as the first jobs close.</p>
@@ -497,7 +474,7 @@ blockquote { border-left: 4px solid var(--accent); padding-left: 1em; font-famil
 </main>
 
 <div class="progress" role="presentation"></div>
-<div class="counter" aria-hidden="true">1 / 7</div>
+<div class="counter" aria-hidden="true">1 / 6</div>
 <div class="nav-hint">← → to navigate</div>
 <button class="nav-btn prev" aria-label="Previous slide">‹</button>
 <button class="nav-btn next" aria-label="Next slide">›</button>
