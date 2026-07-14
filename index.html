@@ -163,11 +163,23 @@ a { color: var(--accent); text-decoration: none; }
 
 .note { color: var(--muted); font-size: clamp(.82rem, 1.5vw, .98rem); margin-top: 1.4em; max-width: 90ch; line-height: 1.5; }
 
-/* term legend */
-.terms { display: flex; gap: .5rem; flex-wrap: wrap; margin: .4em 0 1.4em; }
-.terms span { font-family: var(--font-mono); font-size: clamp(.66rem,1.2vw,.78rem); letter-spacing: .1em;
-  text-transform: uppercase; padding: .45em .8em; border: 1px solid var(--line); border-radius: 999px; color: var(--muted); }
-.terms span.on { border-color: var(--accent); color: var(--accent); }
+/* term selector (interactive) */
+.terms { display: flex; gap: .5rem; flex-wrap: wrap; margin: .5em 0 .8em; }
+.terms .term-btn { font-family: var(--font-mono); font-size: clamp(.66rem,1.2vw,.78rem); letter-spacing: .1em;
+  text-transform: uppercase; padding: .55em .95em; border: 1px solid var(--line); border-radius: 999px;
+  color: var(--muted); background: transparent; cursor: pointer;
+  transition: color .18s ease, background .18s ease, border-color .18s ease; }
+.terms .term-btn:hover { color: var(--ink); border-color: var(--muted); }
+.terms .term-btn.on { border-color: var(--accent); background: var(--accent); color: #0b0b0b; font-weight: 700; }
+.term-blurb { font-family: var(--font-mono); font-size: clamp(.62rem,1.1vw,.72rem); letter-spacing: .06em;
+  color: var(--blue-lite); margin: 0 0 1.3em; min-height: 1.1em; max-width: 92ch; line-height: 1.5; }
+.term-note { font-family: var(--font-mono); font-size: .66rem; letter-spacing: .03em; color: var(--accent);
+  margin: .3em 0 .2em; line-height: 1.45; min-height: 2.5em; }
+.tier.dim { opacity: .42; }
+.price .amt { display: inline-block; }
+@keyframes bump { 0% { transform: scale(1); } 32% { transform: scale(1.09); } 100% { transform: scale(1); } }
+.price .amt.bump { animation: bump .28s ease; }
+@media (prefers-reduced-motion: reduce) { .price .amt.bump { animation: none; } }
 
 /* ---------- Stackables cards ---------- */
 .stack { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
@@ -313,17 +325,22 @@ blockquote { border-left: 4px solid var(--accent); padding-left: 1em; font-famil
     <p class="note">Ad spend is separate from tier pricing and billed directly to MAPCO on each platform. Each tier includes an ad-spend management cap.</p>
   </section>
 
-  <!-- SLIDE 4: Compare terms / what's inside -->
+  <!-- SLIDE 4: Compare terms / interactive price selector -->
   <section class="slide dense">
     <p class="eyebrow">Compare Terms</p>
-    <h2 style="margin-bottom:.15em;">Lock your rate. The longer the term, the lower the cost.</h2>
-    <div class="terms"><span class="on">3-month</span><span>6-month</span><span>12-month</span></div>
+    <h2 style="margin-bottom:.3em;">Lock your rate. The longer the term, the lower the cost.</h2>
+    <div class="terms" role="group" aria-label="Select commitment term">
+      <button type="button" class="term-btn on" data-term="3" aria-pressed="true">3-month</button>
+      <button type="button" class="term-btn" data-term="6" aria-pressed="false">6-month</button>
+      <button type="button" class="term-btn" data-term="12" aria-pressed="false">12-month</button>
+    </div>
+    <p class="term-blurb" id="term-blurb" aria-live="polite"></p>
     <div class="grid-3">
-      <div class="tier">
+      <div class="tier" data-tier="1">
         <span class="tag">Tier 1</span>
         <h3>Ads Engine</h3>
-        <div class="price" style="margin-top:.2em;">$1,750<small> /mo</small></div>
-        <p class="desc" style="margin:.4em 0 .2em;">Month-to-month · eligibility required</p>
+        <div class="price" style="margin-top:.2em;"><span class="amt" data-price>$1,750</span><small> /mo</small></div>
+        <p class="term-note" data-note>Month-to-month · eligibility required</p>
         <ul class="checks">
           <li>Google Ads + Local Services Ads management</li>
           <li>Paid social on 1 platform</li>
@@ -332,12 +349,13 @@ blockquote { border-left: 4px solid var(--accent); padding-left: 1em; font-famil
         </ul>
         <span class="cap">Ad-spend cap $5,000/mo</span>
       </div>
-      <div class="tier feature">
+      <div class="tier feature" data-tier="2">
         <span class="badge">Recommended start</span>
         <span class="tag">Tier 2</span>
         <h3>Conversion System</h3>
-        <div class="price" style="margin-top:.2em;">$6,750<small> /mo</small></div>
-        <p class="desc" style="margin:.4em 0 .2em;">Everything in Ads Engine, expanded · 12-mo from $6,000</p>
+        <div class="price" style="margin-top:.2em;"><span class="amt" data-price>$6,750</span><small> /mo</small></div>
+        <p class="desc" style="margin:.35em 0 0;">Everything in Ads Engine, expanded</p>
+        <p class="term-note" data-note>3-month minimum, then month-to-month</p>
         <ul class="checks">
           <li>Website refresh + ongoing management</li>
           <li>1 conversion landing page / month</li>
@@ -347,11 +365,12 @@ blockquote { border-left: 4px solid var(--accent); padding-left: 1em; font-famil
         </ul>
         <span class="cap">Ad-spend cap $10,000/mo</span>
       </div>
-      <div class="tier">
+      <div class="tier" data-tier="3">
         <span class="tag">Tier 3</span>
         <h3>Full System</h3>
-        <div class="price" style="margin-top:.2em;">$8,500<small> /mo</small></div>
-        <p class="desc" style="margin:.4em 0 .2em;">Everything in Conversion, plus content · 12-mo from $7,650</p>
+        <div class="price" style="margin-top:.2em;"><span class="amt" data-price>$8,500</span><small> /mo</small></div>
+        <p class="desc" style="margin:.35em 0 0;">Everything in Conversion, plus content</p>
+        <p class="term-note" data-note>3-month minimum, then month-to-month</p>
         <ul class="checks">
           <li>Social management on 3 platforms</li>
           <li>Quarterly content production day</li>
@@ -361,7 +380,7 @@ blockquote { border-left: 4px solid var(--accent); padding-left: 1em; font-famil
         <span class="cap" style="border-color:var(--accent); color:var(--accent);">Includes the content engine</span>
       </div>
     </div>
-    <p class="note">Ad spend is billed separately, direct to MAPCO on each platform. Spend above the cap is managed at 15%. Ads Engine is available to accounts already set up in the system, or after a one-time System Setup ($3,500).</p>
+    <p class="note">Ad spend is billed separately, direct to MAPCO on each platform. Spend above the cap is managed at 15%. Tier 1 (Ads Engine) is month-to-month and requires an account already set up in the system, or a one-time System Setup ($3,500).</p>
   </section>
 
   <!-- SLIDE 5: Seasonal conversion -->
@@ -524,6 +543,74 @@ blockquote { border-left: 4px solid var(--accent); padding-left: 1em; font-famil
   var start = parseInt(location.hash.slice(1), 10);
   show(!isNaN(start) ? start - 1 : 0, true);
   setTimeout(function () { if (hint) hint.classList.add('hidden'); }, 6000);
+})();
+</script>
+
+<script>
+/* Slide 4: interactive term selector — prices from MAPCO Pricing (Service Tiers & Stackables). */
+(function () {
+  var PRICE = {
+    '1': { '3': '$1,750', '6': '$1,750', '12': '$1,750' },
+    '2': { '3': '$6,750', '6': '$6,400', '12': '$6,000' },
+    '3': { '3': '$8,500', '6': '$8,100', '12': '$7,650' }
+  };
+  var NOTE = {
+    '1': {
+      '3': 'Month-to-month · eligibility required',
+      '6': 'Month-to-month only · not offered on a term',
+      '12': 'Month-to-month only · not offered on a term'
+    },
+    '2': {
+      '3': '3-month minimum, then month-to-month',
+      '6': 'Rate locked for the full 6-month term',
+      '12': 'Rate locked · Seasonal Sync included ($3,000/yr value)'
+    },
+    '3': {
+      '3': '3-month minimum, then month-to-month',
+      '6': 'Rate locked for the full 6-month term',
+      '12': 'Rate locked · Seasonal Sync included ($3,000/yr value)'
+    }
+  };
+  var BLURB = {
+    '3': 'Minimum term, then continues month-to-month with 30-day notice.',
+    '6': 'Rate locked for the full term.',
+    '12': 'Lowest rate. Rate locked, plus Seasonal Sync ($3,000/yr value) and a 6-month performance checkpoint.'
+  };
+
+  var btns = Array.prototype.slice.call(document.querySelectorAll('.term-btn'));
+  var cards = Array.prototype.slice.call(document.querySelectorAll('.tier[data-tier]'));
+  var blurb = document.getElementById('term-blurb');
+  if (!btns.length) return;
+
+  function apply(term) {
+    cards.forEach(function (card) {
+      var t = card.getAttribute('data-tier');
+      var amt = card.querySelector('[data-price]');
+      var note = card.querySelector('[data-note]');
+      if (amt && amt.textContent !== PRICE[t][term]) {
+        amt.textContent = PRICE[t][term];
+        amt.classList.remove('bump'); void amt.offsetWidth; amt.classList.add('bump');
+      }
+      if (note) note.textContent = NOTE[t][term];
+      if (t === '1') card.classList.toggle('dim', term !== '3');
+    });
+    if (blurb) blurb.textContent = BLURB[term];
+    btns.forEach(function (b) {
+      var on = b.getAttribute('data-term') === term;
+      b.classList.toggle('on', on);
+      b.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+  }
+
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () { apply(b.getAttribute('data-term')); });
+    // keep Space/Enter on the buttons from bubbling to the deck's slide-nav handler
+    b.addEventListener('keydown', function (e) {
+      if (e.key === ' ' || e.key === 'Enter' || e.key === 'Spacebar') e.stopPropagation();
+    });
+  });
+
+  apply('3');
 })();
 </script>
 </body>
