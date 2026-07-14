@@ -101,6 +101,15 @@ a { color: var(--accent); text-decoration: none; }
   letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
 .accent-bar { width: 64px; height: 5px; background: var(--accent); border-radius: 3px; margin-bottom: 1.4em; }
 
+/* trust badge + photo panels */
+.proof { display: flex; align-items: center; gap: .85em; margin-top: 1.5em; }
+.proof img { height: clamp(54px, 8vw, 76px); width: auto; background: #fff; padding: 6px 8px; border-radius: 9px; }
+.proof span { font-family: var(--font-mono); font-size: clamp(.6rem,1.1vw,.72rem); letter-spacing: .12em;
+  text-transform: uppercase; color: var(--muted); max-width: 22ch; line-height: 1.45; }
+.photo-panel { border-radius: var(--radius); overflow: hidden; border: 1px solid var(--line);
+  min-height: clamp(200px, 42vh, 440px); }
+.photo-panel img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
 /* ---------- Pillars row ---------- */
 .pillars { display: flex; flex-wrap: wrap; gap: clamp(.6rem,1.5vw,1rem); margin-top: 1.8em; }
 .pill { font-family: var(--font-mono); font-size: clamp(.7rem,1.3vw,.85rem); letter-spacing: .12em;
@@ -235,25 +244,32 @@ blockquote { border-left: 4px solid var(--accent); padding-left: 1em; font-famil
 
   <!-- SLIDE 1: Cover -->
   <section class="slide cover">
-    <div class="bg"><img src="img/hero-roofers.jpeg" alt="MAPCO Exteriors roofing crew at work"></div>
+    <div class="bg"><img src="img/hero-roofers.jpg" alt="MAPCO Exteriors roofing crew at work"></div>
     <div class="inner">
       <img class="logo" src="img/logo.png" alt="MAPCO Exteriors">
       <p class="eyebrow">Pricing · Service Tiers &amp; Stackables</p>
       <h1>The MAPCO<br>Growth System</h1>
       <p class="lede">A tiered system built to close deals through winter, grow deposits, and keep the install calendar full. Paid ads, a website that converts, and the content engine that makes both perform.</p>
+      <div class="proof">
+        <img src="img/bbb.png" alt="BBB Accredited Business, A+ rating">
+        <span>BBB Accredited · A+ rated · Locally owned in St. Louis</span>
+      </div>
       <p class="foot">Prepared July 2026 · For MAPCO Exteriors · A cut above the rest</p>
     </div>
   </section>
 
-  <!-- SLIDE 2: Big statement + pillars -->
-  <section class="slide">
-    <p class="eyebrow blue">The Growth System · Pricing 2026</p>
-    <h2>Close more deals<br>through winter.</h2>
-    <p class="muted" style="max-width:56ch;">Three service tiers and a shelf of stackables, engineered to get leads flowing, turn clicks into booked inspections, and convert winter demand into spring deposits.</p>
-    <div class="pillars">
-      <span class="pill">Paid Ads</span>
-      <span class="pill b">Converting Website</span>
-      <span class="pill">Content Engine</span>
+  <!-- SLIDE 2: Big statement + pillars (full-bleed photo) -->
+  <section class="slide cover">
+    <div class="bg"><img src="img/statement.jpg" alt="MAPCO roofer installing shingles"></div>
+    <div class="inner">
+      <p class="eyebrow">The Growth System · Pricing 2026</p>
+      <h1 style="max-width:14ch;">Close more deals through winter.</h1>
+      <p class="lede">Three service tiers and a shelf of stackables, engineered to get leads flowing, turn clicks into booked inspections, and convert winter demand into spring deposits.</p>
+      <div class="pillars">
+        <span class="pill">Paid Ads</span>
+        <span class="pill b">Converting Website</span>
+        <span class="pill">Content Engine</span>
+      </div>
     </div>
   </section>
 
@@ -344,12 +360,13 @@ blockquote { border-left: 4px solid var(--accent); padding-left: 1em; font-famil
   </section>
 
   <!-- SLIDE 5: Seasonal conversion -->
-  <section class="slide">
+  <section class="slide dense">
     <p class="eyebrow blue">Seasonal Conversion</p>
-    <div class="columns" style="display:grid; grid-template-columns: 1.1fr 1fr; gap:clamp(1.5rem,4vw,3.5rem); align-items:center;">
-      <blockquote>Competitors hand out the same brochure in January that they printed in June.</blockquote>
+    <h2 style="margin-bottom:.7em; max-width:20ch;">The offer always matches the season the homeowner is living in</h2>
+    <div class="columns" style="grid-template-columns: 0.82fr 1.18fr; gap:clamp(1.2rem,3vw,2.6rem); align-items:stretch;">
+      <figure class="photo-panel"><img src="img/siding.jpg" alt="Freshly installed siding and windows on a home"></figure>
       <div>
-        <h3 style="color:var(--ink); margin-bottom:.8em;">The offer always matches the season the homeowner is living in.</h3>
+        <blockquote style="font-size:clamp(1.15rem,2.3vw,1.6rem); max-width:34ch; margin-bottom:1.1em;">Competitors hand out the same brochure in January that they printed in June.</blockquote>
         <ul class="checks">
           <li><strong>Winter Priority Booking campaign</strong> — full offer design, deposit funnel, and spring slot calendar (Tier 3)</li>
           <li><strong>Seasonal Sync</strong> — every material, QR destination, and offer realigned each quarter ($750/qtr; included on 12-month terms)</li>
@@ -424,7 +441,7 @@ blockquote { border-left: 4px solid var(--accent); padding-left: 1em; font-famil
 
   <!-- SLIDE 7: The Math / Closing -->
   <section class="slide cover">
-    <div class="bg"><img src="img/gutter.jpeg" alt="Freshly installed gutters and siding"></div>
+    <div class="bg"><img src="img/gutter.jpg" alt="Freshly installed gutters and siding"></div>
     <div class="inner">
       <div class="accent-bar"></div>
       <p class="eyebrow">The Math</p>
@@ -433,6 +450,7 @@ blockquote { border-left: 4px solid var(--accent); padding-left: 1em; font-famil
       <div class="cta-row">
         <span class="btn">Start the build</span>
         <a class="phone" href="tel:+16366262726">(636) 62-MAPCO</a>
+        <img src="img/bbb.png" alt="BBB Accredited Business, A+ rating" style="height:clamp(46px,7vw,64px); background:#fff; padding:5px 7px; border-radius:8px;">
       </div>
       <p class="foot">A cut above the rest · Prepared July 2026 · Valid 30 days from presentation</p>
     </div>
