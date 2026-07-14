@@ -107,8 +107,13 @@ a { color: var(--accent); text-decoration: none; }
 .proof span { font-family: var(--font-mono); font-size: clamp(.6rem,1.1vw,.72rem); letter-spacing: .12em;
   text-transform: uppercase; color: var(--muted); max-width: 22ch; line-height: 1.45; }
 .photo-panel { border-radius: var(--radius); overflow: hidden; border: 1px solid var(--line);
-  min-height: clamp(200px, 42vh, 440px); }
+  min-height: clamp(170px, 38vh, 400px); }
 .photo-panel img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.seasonal { display: grid; grid-template-columns: 0.82fr 1.18fr; gap: clamp(1.2rem, 3vw, 2.6rem);
+  align-items: stretch; }
+.seasonal .head { font-family: var(--font-display); font-weight: 800; letter-spacing: -.015em;
+  font-size: clamp(1.35rem, 2.9vw, 2.1rem); line-height: 1.08; color: var(--ink); margin-bottom: .5em; max-width: 20ch; }
+@media (max-width: 860px) { .seasonal { grid-template-columns: 1fr; } }
 
 /* ---------- Pillars row ---------- */
 .pillars { display: flex; flex-wrap: wrap; gap: clamp(.6rem,1.5vw,1rem); margin-top: 1.8em; }
@@ -360,13 +365,13 @@ blockquote { border-left: 4px solid var(--accent); padding-left: 1em; font-famil
   </section>
 
   <!-- SLIDE 5: Seasonal conversion -->
-  <section class="slide dense">
-    <p class="eyebrow blue">Seasonal Conversion</p>
-    <h2 style="margin-bottom:.7em; max-width:20ch;">The offer always matches the season the homeowner is living in</h2>
-    <div class="columns" style="grid-template-columns: 0.82fr 1.18fr; gap:clamp(1.2rem,3vw,2.6rem); align-items:stretch;">
+  <section class="slide">
+    <div class="seasonal">
       <figure class="photo-panel"><img src="img/siding.jpg" alt="Freshly installed siding and windows on a home"></figure>
       <div>
-        <blockquote style="font-size:clamp(1.15rem,2.3vw,1.6rem); max-width:34ch; margin-bottom:1.1em;">Competitors hand out the same brochure in January that they printed in June.</blockquote>
+        <p class="eyebrow blue">Seasonal Conversion</p>
+        <p class="head">The offer always matches the season the homeowner is living in</p>
+        <blockquote style="font-size:clamp(1.05rem,2.1vw,1.45rem); max-width:34ch; margin-bottom:.9em;">Competitors hand out the same brochure in January that they printed in June.</blockquote>
         <ul class="checks">
           <li><strong>Winter Priority Booking campaign</strong> — full offer design, deposit funnel, and spring slot calendar (Tier 3)</li>
           <li><strong>Seasonal Sync</strong> — every material, QR destination, and offer realigned each quarter ($750/qtr; included on 12-month terms)</li>
